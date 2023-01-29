@@ -1,6 +1,6 @@
 @extends('store.layout.master')
 @section('Broser','Cities')
-@section('Title','Cities')
+@section('Title',__('store.index'))
 @section('subtitle','Cities')
 
 @section('content')
@@ -10,7 +10,7 @@
             <div class="col-12">
               <div class="card">
                 <div class="card-header">
-                  <h3 class="card-title">Cities Table</h3>
+                  <h3 class="card-title">{{ __('store.cities') }}</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body table-responsive p-0">
@@ -31,7 +31,6 @@
                             @foreach ( $cities as $city )
                             <tr>
                                <td>{{$loop->iteration}}</td>
-                               {{-- <td>{{$city->id}}</td> --}}
                                <td>{{$city->name}}</td>
                                <td>
                                    <img class="profile-user-img img-fluid img-circle" height="50" width="50" src="{{Storage::url($city->image)}}" alt="User profile picture">

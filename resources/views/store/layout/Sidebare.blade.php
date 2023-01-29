@@ -4,7 +4,7 @@
       <a href="index3.html" class="brand-link">
           <img src="{{ asset('BackEnd/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo"
               class="brand-image img-circle elevation-3" style="opacity: .8">
-          <span class="brand-text font-weight-light">AdminLTE 3</span>
+          <span class="brand-text font-weight-light">{{ __('store.dashboard') }}</span>
       </a>
 
       <!-- Sidebar -->
@@ -188,13 +188,13 @@
                   @endcanany
                   @endcanany
                   @canany(['Create-City', 'Read-Cities', 'Create-Category','Read-Categories'])
-                  <li class="nav-header">Content Manegement</li>
+                  <li class="nav-header">{{ __('store.content_management') }}</li>
                   @canany(['Create-City', 'Read-Cities'])
                   <li class="nav-item">
                       <a href="#" class="nav-link">
                           <i class="fas fa-map-marker-alt nav-icon"></i>
                           <p>
-                              Cities
+                             {{ __('store.cities') }}
                               <i class="fas fa-angle-left right"></i>
                           </p>
                       </a>
@@ -204,7 +204,7 @@
                               <a href="{{ route('cities.create') }}" class="nav-link">
                                   {{-- <i class="fas fa-plus-suquer"></i> --}}
                                   <i class="far fa-plus-square nav-icon"></i>
-                                  <p>Create</p>
+                                  <p>{{ __('store.create') }}</p>
                               </a>
                           </li>
                           @endcan
@@ -212,7 +212,7 @@
                           <li class="nav-item">
                               <a href="{{ route('cities.index') }}" class="nav-link">
                                   <i class="fas fa-list nav-icon"></i>
-                                  <p>Index</p>
+                                  <p>{{ __('store.index') }}</p>
                               </a>
                           </li>
                           @endcan

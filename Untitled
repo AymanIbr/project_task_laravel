@@ -33,6 +33,10 @@ Create Model, Migration & Controller Resource :
 -php artisan make:model Category -mcr
 
 
+Create Model, Migration & Controller Resource & Factore & Seeder :
+
+- php artisan make:model City -mcrfs
+
 make Factory :
 
 - php artisan make:factory ProductFactory --model:Product
@@ -50,3 +54,10 @@ Implementaion Seeder:
 make key :
 
 -> php artisan key:generate
+
+
+اذا اردت اغلاق الموقع
+php artisan down
+
+اذا اردت ان تفتح الموقع
+php artisan up

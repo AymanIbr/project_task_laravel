@@ -18,7 +18,7 @@
       <div class="card-body">
         <div class="form-group">
           <label for="name">Name</label>
-          <input type="text" class="form-control" value="@if (old('name')){{old('name')}}@else{{$city->name}}  @endif" id="name" placeholder="Enter name">
+          <input type="text" class="form-control" value="{{ old('name') ?? $city->name }}" id="name" placeholder="Enter name">
         </div>
         <div class="form-group">
             <div class="custom-file">

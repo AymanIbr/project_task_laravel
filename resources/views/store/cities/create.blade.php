@@ -1,7 +1,7 @@
 @extends('store.layout.master')
-@section('Title','Create City')
-@section('subtitle','Create City')
-@section('Broser','Create City')
+@section('Title', __('store.create_city') )
+@section('subtitle', __('store.create_city'))
+@section('Broser', __('store.create_city'))
 @section('css')
 
 
@@ -9,7 +9,7 @@
 
 <div class="card card-primary">
     <div class="card-header">
-      <h3 class="card-title">Create City</h3>
+      <h3 class="card-title">{{ __('store.create_city') }}</h3>
     </div>
     <!-- /.card-header -->
     <!-- form start -->

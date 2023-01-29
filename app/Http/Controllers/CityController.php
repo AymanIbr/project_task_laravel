@@ -46,6 +46,7 @@ class CityController extends Controller
         $validatore = Validator($request->all(),[
             'name' => 'required|string|min:3|max:30',
             'active'=>'required|boolean',
+            // 'active'=>'nullable|string|in:on',
             'image'=>'required|image|max:2048|mimes:png,jpg'
         ]);
         if(!$validatore->fails()){

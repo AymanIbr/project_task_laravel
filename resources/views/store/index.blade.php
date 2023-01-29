@@ -1,5 +1,5 @@
 @extends('store.layout.master')
-@section('Broser','Home Page')
+@section('Broser',__('store.dashboard'))
 @section('Title','Home Page')
 @section('Subtitle','Home page')
 @section('css')
