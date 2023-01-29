@@ -53,7 +53,7 @@
           </div>
           <!-- /.col -->
           <div class="col-4">
-            <button type="button" onclick="login('{{$guard}}')" class="btn btn-primary btn-block">Sign In</button>
+            <button type="button" onclick="login('{{ $guard }}')" class="btn btn-primary btn-block">Sign In</button>
           </div>
           <!-- /.col -->
         </div>
@@ -63,9 +63,6 @@
 
       <p class="mb-1">
         <a href="forgot-password.html">I forgot my password</a>
-      </p>
-      <p class="mb-0">
-        <a href="register.html" class="text-center">Register a new membership</a>
       </p>
     </div>
     <!-- /.card-body -->

@@ -1,0 +1,48 @@
+Create Migration :
+
+1- php artisan make migration create _tableName_table
+2- php artisan make migration create _tableName_table --create=tableNameHere
+
+Alter Migration :
+
+1- php artisan make:migration add_price_to_products_table
+
+Create Controller :
+- php artisan make:controller CategoryController
+
+Create Resource Controller :
+-php artisan make:controller CategoryController --resource
+-php artisan make:controller CategoryController -r
+
+Create Model :
+-php artisan make:model Category
+
+
+Create Model & Migration :
+-php artisan make:model Category -m
+        - m => migration
+
+
+Create Model, Migration & Controller :
+
+-php artisan make:model Category -mc
+
+
+Create Model, Migration & Controller Resource :
+
+-php artisan make:model Category -mcr
+
+
+make Factory :
+
+- php artisan make:factory ProductFactory --model:Product
+
+
+make Seeder :
+
+- php artisan make:seeder ProductSeeder
+
+Implementaion Seeder:
+
+- php artisan db:seed --class:productSeeder
+

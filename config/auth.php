@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Admin;
+use App\Models\User;
 
 return [
 
@@ -38,6 +39,7 @@ return [
     */
 
     'guards' => [
+
         'user' => [
             'driver' => 'session',
             'provider' => 'users',
@@ -46,11 +48,12 @@ return [
             'driver'=>'session',
             'provider'=>'admins'
         ],
-        'api'=> [
-            'driver'=>'passport',
-            'provider'=>'users',
-            'has'=>false
-        ],
+
+        // 'api'=> [
+        //     'driver'=>'passport',
+        //     'provider'=>'users',
+        //     'has'=>false
+        // ],
     ],
 
     /*
@@ -75,15 +78,11 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
-
-        'admins'=>[
-            'driver'=>'eloquent',
-            'model'=>Admin::class
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Admin::class
         ],
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+
     ],
 
     /*

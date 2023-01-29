@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Dotenv\Validator;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -12,15 +13,21 @@ class authController extends Controller
 {
     public function ShowLogin(Request $request , $guard){
         return response()->view('store.login',compact('guard'));
+
+        // \dd($request->guard);
+        // $request->request->add(['guard' => $request->guard]);
+        // dd($request->all());
+        // $validatorr = Validator($request->all(), [
+        //     'guard' => 'required|string|in:admin,user'
+        // ]);
+        // $request->session()->put('guard', $request->input('guard'));
+        // if (!$validatorr->fails()) {
+        //     return response()->view('store.login');
+        // } else {
+        //     abort(Response::HTTP_NOT_FOUND, 'The page you have requseted is not found');
+        // }
     }
     public function login(Request $request){
-
-        // $validatore = Validator($request->all(),[
-        //     // نخبره اذاموجود في الادمن
-        //     'email'=>'required|email|exists:admins,email',
-        //     'password'=>'required|string|min:3|max:30',
-        //     'remember'=>'required|boolean'
-        // ]);
         $validatore = Validator($request->all(),[
             // نخبره اذاموجود في الادمن
             'email'=>'required|email',

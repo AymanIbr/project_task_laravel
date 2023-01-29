@@ -18,6 +18,8 @@ class CategoryApiController extends Controller
      */
     public function index()
     {
+        // $data = Category::where('user_id',auth('api')->id())->get();
+        // $data = auth('api')->user()->categories;
         $data = Category::all();
         return response()->json([
             'message'=>'success',compact('data')
@@ -81,8 +83,8 @@ class CategoryApiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Category $category)
     {
-        //
+        
     }
 }
