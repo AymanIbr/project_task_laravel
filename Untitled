@@ -46,3 +46,7 @@ Implementaion Seeder:
 
 - php artisan db:seed --class:productSeeder
 
+
+make key :
+
+-> php artisan key:generate
