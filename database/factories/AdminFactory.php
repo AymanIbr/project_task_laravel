@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Admin;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,9 @@ class AdminFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name'=>'ayman',
+            'email'=>'ayman@gmail.com',
+            'password'=>'$2y$10$XGPkQArY2HHByvmSSLf4BedJlnVERje/eR1x30VtcVG9K7.eRUjHG'  //password
         ];
     }
 }

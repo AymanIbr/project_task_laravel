@@ -48,7 +48,7 @@ make Seeder :
 
 Implementaion Seeder:
 
-- php artisan db:seed --class:productSeeder
+- php artisan db:seed --class=productSeeder
 
 
 make key :
@@ -61,3 +61,7 @@ php artisan down
 
 اذا اردت ان تفتح الموقع
 php artisan up
+
+
+التراجع عن اخر عملية رفع
+php artisan migrate:rollback

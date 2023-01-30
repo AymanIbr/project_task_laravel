@@ -55,5 +55,5 @@ Route::prefix('store/admin')->middleware('auth:admin,user')->group(function(){
 
 
 Route::get('/password',function(){
-    return bcrypt(123456789);
+    return bcrypt('password');
 });
