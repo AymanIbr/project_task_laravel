@@ -62,15 +62,15 @@
                                             <td>{{ $admin->updated_at}}</td>
                                             <td>
                                                 <div class="btn-group">
-                                                 {{-- @can('Update-Admin	') --}}
+                                                 @can('Update-Admin')
                                                     <a href="{{ route('admins.edit', $admin->id) }}"
                                                         class="btn btn-warning btn-sm"><i class=" fas fa-edit"></i></a>
-                                                        {{-- @endcan --}}
+                                                        @endcan
                                                         @if (auth('admin')->user()->id != $admin->id)
-                                                        {{-- @can('Delete-Admin') --}}
+                                                        @can('Delete-Admin')
                                                         <a href="#" onclick="confirmDestroy({{ $admin->id }},this)"
                                                             class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                                        {{-- @endcan --}}
+                                                        @endcan
                                                         @endif
                                                 </div>
                                             </td>

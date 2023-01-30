@@ -92,7 +92,8 @@ class AdminController extends Controller
     public function edit(Admin $admin)
     {
         $roles = Role::where('guard_name','=','admin')->get();
-        return response()->view('store.admins.edit',compact('admin','roles'));
+        $adminRole = $admin->roles[0];
+        return response()->view('store.admins.edit',compact('admin','roles','adminRole'));
     }
 
     /**

@@ -65,3 +65,7 @@ php artisan up
 
 التراجع عن اخر عملية رفع
 php artisan migrate:rollback
+
+
+
+php artisan make:controller UserController --model=User

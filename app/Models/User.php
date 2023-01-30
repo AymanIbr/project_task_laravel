@@ -12,7 +12,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable,HasRoles,HasApiTokens;
+    use HasFactory, Notifiable, HasRoles, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -48,11 +48,12 @@ class User extends Authenticatable
     protected $appends = ['status'];
     //Append attribute
     // public function get_____Attribute(){}
-    public function getStatusAttribute(){
-        return $this->active ? 'Active':'Disabled';
+    public function getStatusAttribute()
+    {
+        return $this->active ? 'Active' : 'Disabled';
     }
 
-        /**
+    /**
      * Find the user instance for the given username.
      *
      * @param  string  $username
@@ -63,7 +64,7 @@ class User extends Authenticatable
         return $this->where('email', $username)->first();
     }
 
-     /**
+    /**
      * Validate the password of the user for the Passport password grant.
      *
      * @param  string  $password
@@ -77,4 +78,12 @@ class User extends Authenticatable
 
     protected $primarykey = 'id';
 
+    public function city()
+    {
+        return $this->belongsTo(City::class, 'city_id', 'id');
+    }
+
+    public function getGenderTypeAttribute(){
+        return $this->gender == 'M' ? 'Male':'Female';
+    }
 }

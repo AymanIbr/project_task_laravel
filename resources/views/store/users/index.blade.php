@@ -36,6 +36,8 @@
                                         <th>ID</th>
                                         <th>Name</th>
                                         <th>Email</th>
+                                        <th style="width: 40px">Gender</th>
+                                        <th>City</th>
                                         <th>Roles</th>
                                         <th>status</th>
                                         <th>Created At</th>
@@ -46,10 +48,13 @@
                                 <tbody>
                                     @foreach ($users as $user)
                                         <tr>
-                                            {{-- <td>{{$loop->iteration}}</td> --}}
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $user->name }}</td>
                                             <td>{{ $user->email }}</td>
+                                            <td>
+                                                <span class="badge @if ($user->gender == "M") bg-success @else bg-warning @endif">{{ $user->gender_type }}</span>
+                                            </td>
+                                                <td>{{ $user->city->name}}</td>
                                             <td>
                                                 @foreach ($user->roles as $role)
                                                     <span class="badge bg-primary ">{{ $role->name }}</span>
@@ -58,8 +63,8 @@
                                             <td><span
                                                     class="badge @if ($user->active) bg-success @else bg-danger @endif">{{ $user->status }}</span>
                                             </td>
-                                            <td>{{ $user->created_at }}</td>
-                                            <td>{{ $user->updated_at }}</td>
+                                            <td>{{ $user->created_at->format('d - m - Y') }}</td>
+                                            <td>{{ $user->updated_at->format('d - m - Y') }}</td>
                                             <td>
                                                 <div class="btn-group">
                                                     @can('Update-User')

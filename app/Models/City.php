@@ -15,17 +15,23 @@ class City extends Model
      * @var array<string, string>
      */
 
-     protected $casts = [
+    protected $casts = [
         'created_at' => 'datetime:Y-m-d',
         'updated_at' => 'datetime:Y-m-d',
-     ];
+    ];
 
 
     protected $guarded = [];
     protected $appends = ['status'];
     //Append attribute
     // public function get_____Attribute(){}
-    public function getStatusAttribute(){
-        return $this->active ? 'Active':'Disabled';
+    public function getStatusAttribute()
+    {
+        return $this->active ? 'Active' : 'Disabled';
+    }
+
+    public function users()
+    {
+        return $this->hasMany(User::class, 'city_id', 'id');
     }
 }

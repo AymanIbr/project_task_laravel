@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\City;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,10 +15,17 @@ return new class extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->foreignId('city_id')->after('password');
-            //اضافة الخاصية للعمود الي فوق تظيف العمود
-            //الي موجود في جدول المدينة idانو في جدول المدينة وبدل ال
-            $table->foreign('city_id')->on('cities')->references('id');
+
+            // $table->foreignId('city_id')->after('password');
+            // //اضافة الخاصية للعمود الي فوق تظيف العمود
+            // //الي موجود في جدول المدينة idانو في جدول المدينة وبدل ال
+            // $table->foreign('city_id')->on('cities')->references('id');
+            //-----------------------------------------------------------------------------------------
+            // $table->foreignIdFor(City::class);
+            // $table->foreign('city_id')->on('cities')->references('id');
+            //------------------------------------------------------------------
+            // $table->foreignId('city_id')->constrained();
+            $table->foreignIdFor(City::class)->constrained();
         });
     }
 
