@@ -1,0 +1,70 @@
+
+Route::get('laravel-11',function(){
+
+//  ارجاع سعر اقل منتج عنا
+    // $data = Product::min('price');
+
+// سعر اعلى منتج في الجدول
+// $data = Product::max('price');
+
+//متوسط اسعار
+// $data = Product::avg('price');
+
+//اجمالي سعر كل منتجاتنا
+// $data = Product::sum('price');
+
+//عدد المنتجات
+// $data = Product::count('price');
+
+//عدد المنتجات فوق ال250
+// $data = Product::where('price','>=',250)->count();
+
+//كل المنتجات
+$data = Product()->all();
+
+//اول 10 من المنتجات
+$data = Product::all()->take(10);
+
+//يتخطى اول 10 منتجات
+$data = Product::all()->skip(10);
+
+//تخطي اول 10 واخذ ال10 الي بعدهم
+$data = Product::all()->skip(10)->take(10);
+
+//اخذ اول 10
+$data = Product::take(10)->get();
+
+//تخطي اول 10 واخد ال10 الي بعدها
+$data = Product::skip(10)->take(10)->get();
+
+//ايضا اخد اول 10
+$data = Product::limit(10)->get();
+
+//تخطي 10 واخد الي بعدها
+$data = Product::limit(10)->offset(10)->get();
+
+
+/**
+    Skip => Collection - SQL
+    Take => Collection - SQL
+
+    Limit => SQL
+    Offset => SQL
+
+    Skip => Offset (SQL)
+    Take => Limit (SQL)
+
+*/
+
+//اعطيني الصنف مع الي يحتويه
+//نضع في الويذ اسم العلاقة 
+$data = Category::with('subCategories')->get();
+
+
+
+    return response()->json([
+        ['data'=>$data],
+        Response::HTTP_OK
+    ]);
+
+});
