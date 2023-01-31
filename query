@@ -1,4 +1,5 @@
 
+
 Route::get('laravel-11',function(){
 
 //  ارجاع سعر اقل منتج عنا
@@ -44,7 +45,6 @@ $data = Product::limit(10)->get();
 $data = Product::limit(10)->offset(10)->get();
 
 
-/**
     Skip => Collection - SQL
     Take => Collection - SQL
 
@@ -54,12 +54,94 @@ $data = Product::limit(10)->offset(10)->get();
     Skip => Offset (SQL)
     Take => Limit (SQL)
 
-*/
 
 //اعطيني الصنف مع الي يحتويه
-//نضع في الويذ اسم العلاقة 
-$data = Category::with('subCategories')->get();
+//نضع في الويذ اسم العلاقة
+; $data = Category::with('subCategories')->get();
 
+//لو كان عندي اكثر من علاقة
+$data = Category::with(['subCategories',''])->get();
+
+// لو اردت ان اجيب الي قبل ولكن بشرط معين
+// relation with closer
+$data = Category::with(['subCategories' => function($query){
+    //هنا الشرط
+    $query->where('status','=','Visible');
+}])->get();
+
+
+// تجيب الصنف مع عدد البيانات للسبكاتيحوري
+$data = Category::withCount('subCategories')->get();
+
+//لو اردت ان تعمل شرط للي قبل
+$data = Category::withCount(['subCategories' => function($query){
+    // aسبكاتيجوري تبدا بحرف ال
+    $query->where('title','like','a%');
+}])->get();
+
+
+
+$data = Category::with(['subCategories' => function($query){
+    //هنا الشرط
+    $query->where('title','LIKE','a%');
+}])->get();
+
+
+//بدو الكاتيجوري الي الها سب كاتيجوري
+$data = Category::has('subCategories')->get();
+//نفس الي فوق ولكن مع عدد السبب كاتيجوري لكل وحدة
+$data = Category::withCount('subCategories')->has('subCategories')->get();
+//نفس الي فوق ولكن هات الي معو سب كاتيجوري فوق ال8
+$data = Category::withCount('subCategories')->has('subCategories','>=',8)->get();
+
+
+//  aكل الكاتيجوري الي الها سب كاتيجوري والحد الادنى خمسة وتحتوي السب كاتيجوري على حرف ال في مسماها
+$data = Category::has('subCategories','>=',5,'and',function($query){
+    $query->where('title','LIKE','%a%');
+})->get();
+
+//  نفس الي فوق ولكن بشكل اخر واعادة ترتيب متغيرات
+$data = Category::whereHas('subCategories',function($query){
+    $query->where('title','LIKE','%o%');
+},'>=',5)->get();
+
+
+//عندما تكون هناك علاقة متعدد لمتعدد
+//هذه العلاقة الي مع الجدول الوسيط
+$data = Order::with('orderDetails')->get();
+
+
+//في هذه الحالة من الطلبات ذهبنا الي مودل الorderProduct
+$data = Order::with('orderDetails.product')->get();
+//كل ما اضع . واضع اسمعل علاقة فانه ياخدني الي المودل
+
+
+//الان لو اردت ان احكي مع العلاقة متعدد لمتعدد مباشرة
+//belongsToMany
+$data = Order::with('producs')->get();
+
+//الطلبات التي لا تحتوي على منتجات
+$data = Order::doesntHave('products')->get();
+$data = Order::has('products','=',0)->get();
+
+//نفس الي قبل ولكن مع شرط
+$data = Order::doesntHave('products','and',function($query){
+    $query->where('price','<',100);
+})->get();
+
+//نفس الdosentHave
+$data = Order::whereDoesntHave('products',function($query){
+    $query->where('price','>=',200);
+})->get();
+
+//هل يوجد مجمود يساوي 500
+//true or false
+$data = Order::where('total','>=',500)->exists();
+$data = Order::where('total','>=',500)->doesntExist();
+
+
+
+$
 
 
     return response()->json([
@@ -68,3 +150,36 @@ $data = Category::with('subCategories')->get();
     ]);
 
 });
+
+
+
+
+
+/***
+ربط جدول الطلبات مع جدول المنتجات من دون جدول وسيط
+علاقة متعدد لمتعدد
+//في مودل الطلبات
+//مودل الجدول الوسيط OrderProduct
+//'order_id','product_id' موجودين بالجدول الوسيط
+public function products(){
+    return $this->belongsToMany(Product::class,OrderProduct::class,'order_id','product_id');
+}
+
+
+//في جدول المنتجات
+public function orders(){
+    return $this->belongsToMany(Order::class,OrderProduct::class ,'product_id','order_id');
+}
+
+-------------------------------------------------
+جدول الاصناف واحد لمتعدد مع جدول السب كاتيجوري وايضا
+جدول المنتجات واحد لمتعدد مع جدول السب كاتيجوري
+في هذه الحالة جدول الكاتيجوري والمنتجات العلاقة بينهم
+hasManyThrow
+من خلال مودل الSubCategory
+// يعني في مودل الكاتيجوري
+// في السب كاتيوجري موجود category_id
+//في المنتجات موجود sub_category_id 
+public function products(){
+    return $this->hasManyThrough(Product::class,subCategory::class,'category_id','sub_category_id');
+}

@@ -108,7 +108,7 @@ class AdminController extends Controller
         $validatore = Validator($request->all(),[
             'name'=>'required|min:3|max:30',
             'active'=>'required|boolean',
-            'email'=>'required|email|unique:admins,email'. $admin->id,
+            'email'=>'required|email|unique:admins,email,'. $admin->id,
         ]);
         if(!$validatore->fails()){
             $admin->name = $request->get('name');

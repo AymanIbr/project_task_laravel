@@ -43,7 +43,7 @@
                         placeholder="Enter Email">
                 </div>
                 {{-- // لاخفاء الاكتيف للادمن الي مسجل دخول عند عمل تحديث --}}
-                @if ($admin->id != auth('admin')->id())
+                {{-- @if ($admin->id != auth('admin')->id()) --}}
                     <div class="form-group">
                         <div class="custom-control custom-switch">
                             <input type="checkbox" class="custom-control-input" {{-- @if ($admin->id == auth('admin')->id()) disabled @endif --}} id="active"
@@ -51,7 +51,7 @@
                             <label class="custom-control-label" for="active">Active</label>
                         </div>
                     </div>
-                @endif
+                {{-- @endif --}}
             </div>
             <!-- /.card-body -->
 
