@@ -18,7 +18,7 @@
         <form id="create-form">
             @csrf
             <div class="card-body">
-                @if (auth('admin')->id() != $admin->id)
+                {{-- @if (auth('admin')->id() != $admin->id) --}}
                     <div class="form-group">
                         <label>Role Name</label>
                         <select class="form-control roles" id="role_id" style="width: 100%;" data-select2-id="1"
@@ -29,7 +29,7 @@
                             @endforeach
                         </select>
                     </div>
-                @endif
+                {{-- @endif --}}
                 <div class="form-group">
                     <label for="name">Name</label>
                     <input type="text" class="form-control" id="name"

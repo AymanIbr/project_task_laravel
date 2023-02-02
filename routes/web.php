@@ -30,7 +30,6 @@ Route::prefix('store/admin')->middleware('auth:admin')->group(function(){
 
 
     Route::resource('admins',AdminController::class);
-    Route::resource('users',UserController::class);
 
 });
 
@@ -42,6 +41,7 @@ Route::prefix('store/admin')->middleware('auth:admin,user')->group(function(){
 
     Route::resource('cities',CityController::class);
     Route::resource('categories',CategoryController::class);
+    Route::resource('users',UserController::class);
 
 
     Route::get('notifications',[NotificationController::class , 'index'])->name('user.notification');

@@ -18,7 +18,7 @@ class UserPermissionController extends Controller
     {
 
 
-        $permissions = Permission::where('guard_name', 'user')->get();
+        $permissions = Permission::where('guard_name','=', 'user')->get();
         $userPermissions = $user->permissions()->get();
         if(count($userPermissions) > 0){
             foreach($permissions as $permission){

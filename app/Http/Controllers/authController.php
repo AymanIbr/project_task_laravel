@@ -11,51 +11,44 @@ use Illuminate\Support\Facades\Hash;
 
 class authController extends Controller
 {
-    public function ShowLogin(Request $request , $guard){
-        return response()->view('store.login',compact('guard'));
+    public function ShowLogin(Request $request){
 
         // \dd($request->guard);
-        // $request->request->add(['guard' => $request->guard]);
-        // dd($request->all());
-        // $validatorr = Validator($request->all(), [
-        //     'guard' => 'required|string|in:admin,user'
-        // ]);
-        // $request->session()->put('guard', $request->input('guard'));
-        // if (!$validatorr->fails()) {
-        //     return response()->view('store.login');
-        // } else {
-        //     abort(Response::HTTP_NOT_FOUND, 'The page you have requseted is not found');
-        // }
+        $validatorr = Validator(['guard' => $request->guard], [
+            'guard' => 'required|string|in:admin,user'
+        ]);
+        session()->put('guard', $request->guard);
+        if (!$validatorr->fails()) {
+            return response()->view('store.login');
+        } else {
+            abort(Response::HTTP_NOT_FOUND, 'The page you have requseted is not found');
+        }
     }
     public function login(Request $request){
-        $validatore = Validator($request->all(),[
-            // نخبره اذاموجود في الادمن
-            'email'=>'required|email',
-            'password'=>'required|string|min:3|max:30',
-            'remember'=>'required|boolean',
-            'guard'=>'required|string|in:admin,user'
-        ],[
-            'guard.in'=>'Please , Check Login URL'
+        $validator = validator([
+            'email' => 'required|email',
+            'password' => 'required|string|min:3',
+            'remember' => 'required|boolean'
         ]);
-        if(!$validatore->fails()){
-            $credentials = [
-                'email'=>$request->get('email'),
-                'password'=>$request->get('password')
+        $guard = session()->get('guard');
+        if (!$validator->fails()) {
+            $crednrtials = [
+                'email' => $request->input('email'),
+                'password' => $request->input('password')
             ];
-            // if(Auth::guard('admin')->attempt($credentials,$request->get('remember'))){
-                if(Auth::guard($request->get('guard'))->attempt($credentials,$request->get('remember'))){
-                return response()->json([
-                    'message'=>'Logged in successfuly'
-                ],Response::HTTP_OK);
-            }else{
-                return response()->json([
-                    'message'=>'Login Falied , wrong credentials'
-                ],Response::HTTP_BAD_REQUEST);
+            if (Auth::guard($guard)->attempt($crednrtials, $request->input('remember'))) {
+                return response()->json(['message' => 'login success'], Response::HTTP_OK);
+            } else {
+                return response()->json(
+                    ['message' => 'Login failed, check login details'],
+                    Response::HTTP_BAD_REQUEST
+                );
             }
-        }else{
-            return response()->json([
-                'message'=>$validatore->getMessageBag()->first()
-            ],Response::HTTP_BAD_REQUEST);
+        } else {
+            return response()->json(
+                ['message' => $validator->getMessageBag()->first()],
+                Response::HTTP_BAD_REQUEST
+            );
         }
     }
 

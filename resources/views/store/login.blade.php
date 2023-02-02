@@ -53,7 +53,7 @@
           </div>
           <!-- /.col -->
           <div class="col-4">
-            <button type="button" onclick="login('{{ $guard }}')" class="btn btn-primary btn-block">Sign In</button>
+            <button type="button" onclick="login()" class="btn btn-primary btn-block">Sign In</button>
           </div>
           <!-- /.col -->
         </div>
@@ -82,12 +82,11 @@
 <!-- AdminLTE App -->
 <script src="{{asset('BackEnd/dist/js/adminlte.min.js')}}"></script>
 <script>
-    function login(guard){
+    function login(){
       axios.post('/store/login',{
         'email' :document.getElementById('email').value,
         'password' : document.getElementById('password').value,
         'remember':document.getElementById('remember').checked,
-        'guard': guard
       })
       .then(function (response) {
           // handle success
