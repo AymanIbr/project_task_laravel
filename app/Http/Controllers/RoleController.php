@@ -81,8 +81,8 @@ class RoleController extends Controller
      */
     public function edit(Role $role)
     {
-        $guards = ['admin', 'user'];
-        return response()->view('store.spatie.roles.edit', compact('role', 'guards'));
+        // $guards = ['admin', 'user'];
+        return response()->view('store.spatie.roles.edit', compact('role'));
     }
 
     /**

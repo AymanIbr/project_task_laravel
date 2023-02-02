@@ -20,8 +20,8 @@
             @csrf
             <div class="card-body">
                 <div class="form-group">
-                    <label>Minimal</label>
-                    <select class="form-control guard_name" id="guard_name" style="width: 100%;">
+                    <label>User Type</label>
+                    <select class="form-control guards" id="guard_name" style="width: 100%;">
                         <option value="admin" @if ($role->guard_name == 'admin') selected @endif>Admin</option>
                         <option value="user" @if ($role->guard_name == 'user') selected @endif>User</option>
                     </select>

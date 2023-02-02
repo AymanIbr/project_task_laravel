@@ -69,3 +69,13 @@ php artisan migrate:rollback
 
 
 php artisan make:controller UserController --model=User
+
+-------------------------------------------------
+make policy
+->Admin نفس اسم الmodel
+-> php artisan make:policy AdminPolicy --model=Admin
+
+لو لم تكن متبع التسمية الصحيح نذهب على صفحة
+AuthServiceProvider
+
+داخل الصفحة في الpolicies 

@@ -35,25 +35,30 @@
                                             {{-- <td>{{$loop->iteration}}</td> --}}
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $role->name }}</td>
-                                            <td><span class="badge @if($role->guard_name == 'admin') bg-info @else bg-success @endif">{{ $role->guard_name }}</span></td>
+                                            <td><span
+                                                    class="badge @if ($role->guard_name == 'admin') bg-info @else bg-success @endif">{{ $role->guard_name }}</span>
+                                            </td>
                                             <td>
-                                                <a href="{{route('roles.permissions.index',[$role->id])}}" class="btn bg-info">
-                                                    ({{$role->permissions_count}})Permissions
-                                                  </a>
-                                                </td>                                            <td>{{ $role->created_at->format('d - m - Y') }}</td>
+                                                <a href="{{ route('roles.permissions.index', [$role->id]) }}"
+                                                    class="btn bg-info">
+                                                    ({{ $role->permissions_count }})
+                                                    Permissions
+                                                </a>
+                                            </td>
+                                            <td>{{ $role->created_at->format('d - m - Y') }}</td>
                                             <td>{{ $role->updated_at->format('d - m - Y') }}</td>
                                             <td>
                                                 <div class="btn-group">
                                                     @can('Update-Role')
-                                                    <a href="{{ route('roles.edit', $role->id) }}"
-                                                        class="btn btn-warning btn-sm"><i class=" fas fa-edit"></i></a>
+                                                        <a href="{{ route('roles.edit', $role->id) }}"
+                                                            class="btn btn-warning btn-sm"><i class=" fas fa-edit"></i></a>
                                                     @endcan
-                                                        @can('Delete-Role')
-                                                              {{-- @if (auth('user')->user()->id != $user->id) --}}
-                                                    <a href="#" onclick="confirmDestroy({{ $role->id }},this)"
-                                                        class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                                    {{-- @endif --}}
-                                                        @endcan
+                                                    @can('Delete-Role')
+                                                        {{-- @if (auth('user')->user()->id != $user->id) --}}
+                                                        <a href="#" onclick="confirmDestroy({{ $role->id }},this)"
+                                                            class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                        {{-- @endif --}}
+                                                    @endcan
                                                 </div>
                                             </td>
                                         </tr>
@@ -94,7 +99,7 @@
         }
 
         function destroy(id, reference) {
-            axios.delete('/store/admin/roles/'+id)
+            axios.delete('/store/admin/roles/' + id)
                 .then(function(response) {
                     // handle success
                     //فئة ال200

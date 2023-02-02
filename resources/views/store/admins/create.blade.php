@@ -21,7 +21,7 @@
                   <div class="card-body">
                     <div class="form-group">
                         <label>Roles</label>
-                        <select class="form-control roles" id="role_id" style="width: 100%;">
+                        <select class="form-control guards" id="role_id" style="width: 100%;">
                             @foreach ($roles as $role )
                             <option value="{{$role->id}}">{{$role->name}}</option>
                             @endforeach

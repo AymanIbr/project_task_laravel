@@ -76,6 +76,7 @@
         function update(id, redirect) {
             axios.put('/store/admin/admins/' + id, {
                     name: document.getElementById('name').value,
+                    role_id: document.getElementById('role_id').value,
                     email: document.getElementById('email').value,
                     active: document.getElementById('active').checked ? 1 : 0,
                 })

@@ -16,9 +16,9 @@ class RolePolicy
      * @param  \App\Models\Admin  $admin
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function viewAny($user)
+    public function viewAny( Admin $admin)
     {
-          return $user->hasPermissionTo('Read-Roles')
+          return $admin->hasPermissionTo('Read-Roles')
         ? $this->allow()
         : $this->deny('You can not view any role');
     }
@@ -30,9 +30,9 @@ class RolePolicy
      * @param  \App\Models\Role  $role
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view($user, Role $role)
+    public function view(Admin $admin, Role $role)
     {
-         return $user->hasPermissionTo('Read-Roles')
+         return $admin->hasPermissionTo('Read-Roles')
         ? $this->allow()
         : $this->deny('You can not view any role');
     }
@@ -43,9 +43,9 @@ class RolePolicy
      * @param  \App\Models\Admin  $admin
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function create($user)
+    public function create(Admin $admin)
     {
-       return $user->hasPermissionTo('Create-Role')
+       return $admin->hasPermissionTo('Create-Role')
         ? $this->allow()
         : $this->deny('You can not create a role');
     }
@@ -57,9 +57,9 @@ class RolePolicy
      * @param  \App\Models\Role  $role
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update($user, Role $role)
+    public function update(Admin $admin, Role $role)
     {
-        return $user->hasPermissionTo('Update-Role')
+        return $admin->hasPermissionTo('Update-Role')
         ? $this->allow()
         : $this->deny('You can not update a role');
     }
@@ -71,9 +71,9 @@ class RolePolicy
      * @param  \App\Models\Role  $role
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete($user, Role $role)
+    public function delete(Admin $admin, Role $role)
     {
-        return $$user->hasPermissionTo('Delete-Role')
+        return $admin->hasPermissionTo('Delete-Role')
         ? $this->allow()
         : $this->deny('You can not delete a role');
     }

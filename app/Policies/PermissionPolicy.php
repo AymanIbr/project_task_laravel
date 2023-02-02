@@ -16,9 +16,9 @@ class PermissionPolicy
      * @param  \App\Models\Admin  $admin
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function viewAny($permission)
+    public function viewAny(Admin $admin)
     {
-        return $permission->hasPermissionTo('Read-Permissions')
+        return $admin->hasPermissionTo('Read-Permissions')
         ? $this->allow()
         : $this->deny();
     }
@@ -30,9 +30,9 @@ class PermissionPolicy
      * @param  \App\Models\Permission  $permission
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view($permission)
+    public function view(Admin $admin , Permission $permission)
     {
-        return $permission->hasPermissionTo('Read-Permissions')
+        return $admin->hasPermissionTo('Read-Permissions')
         ? $this->allow()
         : $this->deny();
     }
@@ -43,9 +43,9 @@ class PermissionPolicy
      * @param  \App\Models\Admin  $admin
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function create($permission)
+    public function create(Admin $admin)
     {
-        return $permission->hasPermissionTo('Create-Permission')
+        return $admin->hasPermissionTo('Create-Permission')
         ? $this->allow()
         : $this->deny();
     }
@@ -57,9 +57,9 @@ class PermissionPolicy
      * @param  \App\Models\Permission  $permission
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update($permission)
+    public function update(Admin $admin,Permission $permission)
     {
-        return $permission->hasPermissionTo('Update-Permission')
+        return $admin->hasPermissionTo('Update-Permission')
         ? $this->allow()
         : $this->deny();
     }
@@ -71,9 +71,9 @@ class PermissionPolicy
      * @param  \App\Models\Permission  $permission
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete($permission)
+    public function delete(Admin $admin,Permission $permission)
     {
-        return $permission->hasPermissionTo('Delete-Permission')
+        return $admin->hasPermissionTo('Delete-Permission')
         ? $this->allow()
         : $this->deny();
     }

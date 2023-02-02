@@ -22,7 +22,7 @@ class AdminPolicy
         : $this->deny('Don\'t have Permission',403);
     }
 
-    /**
+    /** 
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\Admin  $admin

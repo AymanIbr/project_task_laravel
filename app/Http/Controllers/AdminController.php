@@ -13,11 +13,11 @@ use Symfony\Component\HttpFoundation\Response;
 class AdminController extends Controller
 {
 
-     // في هذه الحالة كل الدوال تم تسكيرها
-     public function __construct()
-     {
-         $this->authorizeResource(Admin::class ,'admin');
-     }
+    // في هذه الحالة كل الدوال تم تسكيرها
+    public function __construct()
+    {
+        $this->authorizeResource(Admin::class, 'admin');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -26,7 +26,7 @@ class AdminController extends Controller
     public function index()
     {
         $admins = Admin::with('roles')->get();
-        return response()->view('store.admins.index',compact('admins'));
+        return response()->view('store.admins.index', compact('admins'));
     }
 
     /**
@@ -36,8 +36,8 @@ class AdminController extends Controller
      */
     public function create()
     {
-        $roles = Role::where('guard_name','=','admin')->get();
-        return response()->view('store.admins.create',compact('roles'));
+        $roles = Role::where('guard_name', '=', 'admin')->get();
+        return response()->view('store.admins.create', compact('roles'));
     }
 
     /**
@@ -48,27 +48,27 @@ class AdminController extends Controller
      */
     public function store(Request $request)
     {
-        $validatore = Validator($request->all(),[
-            'name'=>'required|min:3|max:30',
-            'active'=>'required|boolean',
-            'email'=>'required|email|unique:admins,email',
+        $validatore = Validator($request->all(), [
+            'role_id' => 'required|numeric|exists:roles,id',
+            'name' => 'required|min:3|max:30',
+            'active' => 'required|boolean',
+            'email' => 'required|email|unique:admins,email',
         ]);
-        if(!$validatore->fails()){
+        if (!$validatore->fails()) {
             $admin = new Admin();
             $admin->name = $request->get('name');
             $admin->email = $request->get('email');
             $admin->password = Hash::make(12345);
-            $admin->active=$request->get('active');
+            $admin->active = $request->get('active');
             $isSaved = $admin->save();
-            if($isSaved) $admin->assignRole(Role::findOrFail($request->input('role_id')));
+            if ($isSaved) $admin->assignRole(Role::findOrFail($request->input('role_id')));
             return response()->json([
-                'message'=>$isSaved ?  'Saved Successfuly':'Failed to Save'
-            ],$isSaved ? Response::HTTP_CREATED : Response::HTTP_BAD_REQUEST);
-        }else {
+                'message' => $isSaved ?  'Saved Successfuly' : 'Failed to Save'
+            ], $isSaved ? Response::HTTP_CREATED : Response::HTTP_BAD_REQUEST);
+        } else {
             return response()->json([
-                'message'=>$validatore->getMessageBag()->first()
-            ],Response::HTTP_BAD_REQUEST);
-
+                'message' => $validatore->getMessageBag()->first()
+            ], Response::HTTP_BAD_REQUEST);
         }
     }
 
@@ -91,9 +91,9 @@ class AdminController extends Controller
      */
     public function edit(Admin $admin)
     {
-        $roles = Role::where('guard_name','=','admin')->get();
+        $roles = Role::where('guard_name', '=', 'admin')->get();
         $adminRole = $admin->roles[0];
-        return response()->view('store.admins.edit',compact('admin','roles','adminRole'));
+        return response()->view('store.admins.edit', compact('admin', 'roles', 'adminRole'));
     }
 
     /**
@@ -105,23 +105,24 @@ class AdminController extends Controller
      */
     public function update(Request $request, Admin $admin)
     {
-        $validatore = Validator($request->all(),[
-            'name'=>'required|min:3|max:30',
-            'active'=>'required|boolean',
-            'email'=>'required|email|unique:admins,email,'. $admin->id,
+        $validatore = Validator($request->all(), [
+            'name' => 'required|min:3|max:30',
+            'active' => 'required|boolean',
+            'email' => 'required|email|unique:admins,email,' . $admin->id,
         ]);
-        if(!$validatore->fails()){
+        if (!$validatore->fails()) {
             $admin->name = $request->get('name');
             $admin->email = $request->get('email');
             $admin->active = $request->get('active');
             $isUpdate = $admin->save();
+            if ($isUpdate) $admin->syncRoles(Role::findOrFail($request->input('role_id')));
             return response()->json([
-                'message'=>$isUpdate ? 'Updated Successfuly':'Failed to Update'
-            ],$isUpdate ? Response::HTTP_CREATED : Response::HTTP_BAD_REQUEST);
-        }else{
+                'message' => $isUpdate ? 'Updated Successfuly' : 'Failed to Update'
+            ], $isUpdate ? Response::HTTP_CREATED : Response::HTTP_BAD_REQUEST);
+        } else {
             return response()->json([
-                'message'=>$validatore->getMessageBag()->first()
-            ],Response::HTTP_BAD_REQUEST);
+                'message' => $validatore->getMessageBag()->first()
+            ], Response::HTTP_BAD_REQUEST);
         }
     }
 
@@ -133,22 +134,17 @@ class AdminController extends Controller
      */
     public function destroy(Admin $admin)
     {
-        $isDeleted = $admin->delete();
-        if($isDeleted){
-            return response()->json(['title'=>'Success','text'=>'Admin Deleted Successfully','icon'=>'success'],Response::HTTP_OK);
-        }else{
-            return response()->json(['title'=>'Failed','text'=>'Admin Deleted Failed','icon'=>'error'],Response::HTTP_BAD_REQUEST);
+        if (auth('admin')->id() != $admin->id) {
+            $isDeleted = $admin->delete();
+        } else {
+            return response()->json([
+                'text' =>  'Deleted Failed , Can\'t delete Your Acount !'
+            ], Response::HTTP_BAD_REQUEST);
+        }
+        if ($isDeleted) {
+            return response()->json(['title' => 'Success', 'text' => 'Admin Deleted Successfully', 'icon' => 'success'], Response::HTTP_OK);
+        } else {
+            return response()->json(['title' => 'Failed', 'text' => 'Admin Deleted Failed', 'icon' => 'error'], Response::HTTP_BAD_REQUEST);
         }
     }
-     // بعد منخفيها من الفرونت نخفيها من هنا لكي يكون اضمن
-            // if(auth()->id() != $admin->id){
-            //     $isDeleted = $admin->delete();
-            //     return response()->json([
-            //         'text'=>$isDeleted ? 'Deleted Sucssefly':'Deleted Faled'
-            //     ], $isDeleted ? Response::HTTP_OK : Response::HTTP_BAD_REQUEST );
-            // }else{
-            //     return response()->json([
-            //         'text'=>  'Deleted Failed , Can\'t delete Your Acount !'
-            //     ],Response::HTTP_BAD_REQUEST );
-            // }
 }

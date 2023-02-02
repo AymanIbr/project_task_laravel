@@ -19,7 +19,7 @@ class RolePermissionController extends Controller
     {
 
         // لو اردت ان اظهر كل البيرمشن تاعت اليوزر والادمن
-        $permissions = Permission::all();
+        // $permissions = Permission::all();
 
         $permissions = Permission::where('guard_name','=', $role->guard_name)->get();
         $rolePermissions = $role->permissions;
@@ -36,22 +36,6 @@ class RolePermissionController extends Controller
         return view('store.spatie.roles.role-permission', compact('role', 'permissions', 'rolePermissions'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request,Role $role)
     {
         $validator = Validator( $request->all(),[
@@ -76,48 +60,4 @@ class RolePermissionController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

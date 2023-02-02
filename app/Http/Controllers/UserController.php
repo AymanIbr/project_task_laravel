@@ -151,9 +151,6 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $isDeleted = $user->delete();
-        // return response()->json([
-        //     'message' => $isDeleted ? 'Deleted successfully' : 'Delete failed'
-        // ], $isDeleted ? Response::HTTP_OK : Response::HTTP_BAD_REQUEST);
         if($isDeleted){
             return response()->json([
                 'title'=>'Success','text'=>'User Deleted Successfully','icon'=>'success'
