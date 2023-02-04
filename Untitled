@@ -78,4 +78,30 @@ make policy
 لو لم تكن متبع التسمية الصحيح نذهب على صفحة
 AuthServiceProvider
 
-داخل الصفحة في الpolicies 
+داخل الصفحة في الpolicies
+
+
+
+-----------------------
+بعد الانتهاء من اي مشروع في الenv
+عندما ناتي نرفعه على السيرفر
+APP_DEBUG=false
+false نضعها
+بدل true
+
+وايضا نضع في
+APP_ENV=production
+
+
+
+-------------------------------------------
+التراجع عن اخر عملية migrate
+php artisan migrate:rolback --step=1
+
+------------------------------
+بعد الانتهاء من عملية الصورة نكتب
+php artisan storage:link
+
+-----------------------------------------
+make mail
+-> php artisan make:mail WelcomeEmail --markdown=emails.welcome

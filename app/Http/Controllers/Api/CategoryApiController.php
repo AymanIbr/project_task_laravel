@@ -20,9 +20,14 @@ class CategoryApiController extends Controller
     {
         // $data = Category::where('user_id',auth('api')->id())->get();
         // $data = auth('api')->user()->categories;
-        $data = Category::all();
+        //اعطاء صلاحية للapi
+        $this->authorize('viewAny',Category::class);
+
+        $data = Category::where('active','=',true)->get();
         return response()->json([
-            'message'=>'success',compact('data')
+            'status'=>true,
+            'message'=>'success',
+            'data'=>$data
         ]);
     }
 
@@ -85,6 +90,6 @@ class CategoryApiController extends Controller
      */
     public function destroy(Category $category)
     {
-        
+
     }
 }

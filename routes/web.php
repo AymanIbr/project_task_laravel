@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\authController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CityController;
@@ -11,6 +12,9 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\RolePermissionController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserPermissionController;
+use App\Mail\AdminWelcomeEmail;
+use App\Mail\WelcomeEmail;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 
@@ -18,6 +22,13 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('store')->middleware('guest:user,admin')->group(function () {
     Route::get('/{guard}/login', [authController::class, 'ShowLogin'])->name('login');
     Route::post('/login', [authController::class, 'login']);
+
+    Route::get('forgot-password',[ResetPasswordController::class , 'showForgotPassword'])->name('password.forgot');
+    Route::post('forgot-password',[ResetPasswordController::class , 'sendReetLink']);
+
+    Route::get('reset-password/{token}',[ResetPasswordController::class , 'showResetPassword'])->name('password.reset');
+    Route::post('reset-password',[ResetPasswordController::class , 'resetPassword']);
+
 });
 
 
@@ -53,7 +64,11 @@ Route::prefix('store/admin')->middleware('auth:admin,user')->group(function(){
 
 });
 
+// Route::get('email',function(){
+//     return new AdminWelcomeEmail( User::first());
+// });
 
-Route::get('/password',function(){
-    return bcrypt('password');
-});
+
+// Route::get('/password',function(){
+//     return bcrypt('password');
+// });

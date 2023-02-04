@@ -40,6 +40,13 @@
                     </select>
                 </div>
                 <div class="form-group">
+                    <label for="image">User Image</label>
+                    <div class="custom-file">
+                      <input type="file" class="custom-file-input" id="image">
+                      <label class="custom-file-label" for="image">Choose image</label>
+                    </div>
+                  </div>
+                <div class="form-group">
                     <label for="city_id">Cities</label>
                     <select class="form-control city" id="city_id" style="width: 100%;">
                         @foreach ($cities as $city)
@@ -85,14 +92,15 @@
             theme: 'bootstrap4'
         })
         function store() {
-            axios.post('/store/admin/users', {
-                    name: document.getElementById('name').value,
-                    role_id: document.getElementById('role_id').value,
-                    city_id: document.getElementById('city_id').value,
-                    gender: document.getElementById('gender').value,
-                    email: document.getElementById('email').value,
-                    active: document.getElementById('active').checked ? 1 : 0,
-                })
+            let formData = new FormData();
+            formData.append('name',document.getElementById('name').value);
+            formData.append('image',document.getElementById('image').files[0]);
+            formData.append('role_id',document.getElementById('role_id').value);
+            formData.append('city_id',document.getElementById('city_id').value);
+            formData.append('gender',document.getElementById('gender').value);
+            formData.append('email',document.getElementById('email').value);
+            formData.append('active',document.getElementById('active').checked ? 1 : 0);
+            axios.post('/store/admin/users',formData)
                 .then(function(response) {
                     // handle success
                     console.log(response);

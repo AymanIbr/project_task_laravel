@@ -141,6 +141,7 @@ class CityController extends Controller
     {
         $isDeleted = $city->delete();
         if($isDeleted){
+            // Storage::delete($city->image);
             return response()->json(['title'=>'Success','text'=>'City Deleted Successfully','icon'=>'success'],Response::HTTP_OK);
         }else{
             return response()->json(['title'=>'Failed','text'=>'City Deleted Failed','icon'=>'error'],Response::HTTP_BAD_REQUEST);

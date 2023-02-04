@@ -16,9 +16,12 @@ class City extends Model
      */
 
     protected $casts = [
-        'created_at' => 'datetime:Y-m-d',
+        'created_at' => 'datetime:H:ia',
         'updated_at' => 'datetime:Y-m-d',
+        'active' => 'boolean'
     ];
+
+
 
 
     protected $guarded = [];

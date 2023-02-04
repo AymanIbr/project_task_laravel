@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Notifications\NewUserNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Models\Role;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -55,7 +56,8 @@ class UserController extends Controller
             'role_id' => 'required|numeric|exists:roles,id',
             'email' => 'required|email|unique:users',
             'gender' => 'required|string|in:M,F',
-            'city_id' => 'required|numeric|exists:cities,id'
+            'city_id' => 'required|numeric|exists:cities,id',
+            'image'=>'required|image|max:2048|mimes:jpg,png'
         ]);
         if (!$validatore->fails()) {
             $user = new User();
@@ -65,6 +67,12 @@ class UserController extends Controller
             $user->gender = $request->get('gender');
             $user->city_id = $request->get('city_id');
             $user->password = Hash::make(12345);
+            if($request->hasFile('image')){
+                $ex = $request->file('image')->getClientOriginalExtension();
+                $image_name = time().'_user.'.$ex;
+                $request->file('image')->storePubliclyAs('images',$image_name,['disk'=>'public']);
+                $user->image = 'images/'.$image_name;
+             }
             $isSaved = $user->save();
             if ($isSaved) {
                 // Notification::sendNow([Admin::all()], new NewUserNotification($user));
@@ -122,7 +130,8 @@ class UserController extends Controller
             'role_id' => 'required|numeric|exists:roles,id',
             'email' => 'required|email|unique:users,email,'.$user->id,
             'gender' => 'required|string|in:M,F',
-            'city_id' => 'required|numeric|exists:cities,id'
+            'city_id' => 'required|numeric|exists:cities,id',
+            'image'=>'nullable|image|max:2048|mimes:jpg,png',
         ]);
         if (!$validatore->fails()) {
             $user->name = $request->get('name');
@@ -130,6 +139,13 @@ class UserController extends Controller
             $user->active = $request->get('active');
             $user->gender = $request->get('gender');
             $user->city_id = $request->get('city_id');
+            if($request->hasFile('image')){
+                Storage::delete($user->image);
+                $ex = $request->file('image')->getClientOriginalExtension();
+                    $image_name = time().'_user.'.$ex;
+                    $request->file('image')->storePubliclyAs('images',$image_name,['disk'=>'public']);
+                    $user->image = 'images/'. $image_name;
+            }
             $isSaved = $user->save();
             if ($isSaved) $user->syncRoles(Role::findOrFail($request->input('role_id')));
             return response()->json([
@@ -152,6 +168,7 @@ class UserController extends Controller
     {
         $isDeleted = $user->delete();
         if($isDeleted){
+            Storage::delete($user->image);
             return response()->json([
                 'title'=>'Success','text'=>'User Deleted Successfully','icon'=>'success'
             ],Response::HTTP_OK);
