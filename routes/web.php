@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Auth\EmailVerificationController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\authController;
 use App\Http\Controllers\CategoryController;
@@ -23,45 +24,50 @@ Route::prefix('store')->middleware('guest:user,admin')->group(function () {
     Route::get('/{guard}/login', [authController::class, 'ShowLogin'])->name('login');
     Route::post('/login', [authController::class, 'login']);
 
-    Route::get('forgot-password',[ResetPasswordController::class , 'showForgotPassword'])->name('password.forgot');
-    Route::post('forgot-password',[ResetPasswordController::class , 'sendReetLink']);
-
-    Route::get('reset-password/{token}',[ResetPasswordController::class , 'showResetPassword'])->name('password.reset');
-    Route::post('reset-password',[ResetPasswordController::class , 'resetPassword']);
-
+    Route::get('forgot-password', [ResetPasswordController::class, 'showForgotPassword'])->name('password.forgot');
+    Route::post('forgot-password', [ResetPasswordController::class, 'sendReetLink']);
+    //هذا الرابط بنيته ثابتة
+    Route::get('reset-password/{token}', [ResetPasswordController::class, 'showResetPassword'])->name('password.reset');
+    Route::post('reset-password', [ResetPasswordController::class, 'resetPassword']);
 });
 
 
-Route::prefix('store/admin')->middleware('auth:admin')->group(function(){
+Route::prefix('store/admin')->middleware(['auth:admin', 'verified'])->group(function () {
 
-    Route::resource('roles',RoleController::class);
-    Route::resource('permissions',PermissionController::class);
-    Route::resource('roles.permissions',RolePermissionController::class);
-    Route::resource('users.permissions',UserPermissionController::class);
+    Route::resource('roles', RoleController::class);
+    Route::resource('permissions', PermissionController::class);
+    Route::resource('roles.permissions', RolePermissionController::class);
+    Route::resource('users.permissions', UserPermissionController::class);
 
 
-    Route::resource('admins',AdminController::class);
-
+    Route::resource('admins', AdminController::class);
 });
 
 
-Route::prefix('store/admin')->middleware('auth:admin,user')->group(function(){
+Route::prefix('store/admin')->middleware(['auth:admin,user', 'verified'])->group(function () {
 
 
-    Route::get('/',[DashboardController::class , 'index'])->name('HomePage');
+    Route::get('/', [DashboardController::class, 'index'])->name('HomePage');
 
-    Route::resource('cities',CityController::class);
-    Route::resource('categories',CategoryController::class);
-    Route::resource('users',UserController::class);
+    Route::resource('cities', CityController::class);
+    Route::resource('categories', CategoryController::class);
+    Route::resource('users', UserController::class);
 
 
-    Route::get('notifications',[NotificationController::class , 'index'])->name('user.notification');
+    Route::get('notifications', [NotificationController::class, 'index'])->name('user.notification');
 
-    Route::get('edit-password',[authController::class , 'changePassword'])->name('change-password');
-    Route::put('update-password',[authController::class , 'updatePassword']);
+    Route::get('edit-password', [authController::class, 'changePassword'])->name('change-password');
+    Route::put('update-password', [authController::class, 'updatePassword']);
 
-    Route::get('logout',[authController::class , 'logout'])->name('logout');
+    Route::get('logout', [authController::class, 'logout'])->name('logout');
+});
 
+Route::prefix('store')->middleware('auth:admin')->group(function () {
+    Route::get('email-verify', [EmailVerificationController::class , 'showEmailVerification'])->name('verification.notice');
+    // throtttle تعني مرة كل دقيقة وايضا ناخره دقيقة
+    Route::get('email-verify/send',[EmailVerificationController::class,'sendVerificationEmail'])->middleware('throttle:1,1');
+    //signed نظيفها لكي نتأكد ان الريكوست من السيستم الخاص بنا
+    Route::get('verify/{id}/{hash}',[EmailVerificationController::class, 'verifyEmail'])->middleware('signed')->name('verification.verify');
 });
 
 // Route::get('email',function(){

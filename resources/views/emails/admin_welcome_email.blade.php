@@ -3,7 +3,8 @@
 
 Thanks for your cooperation and support,
 @component('mail::panel')
-To access Sotre, click on below button.
+To access Sotre your password is {{ $password }} <br>
+ click on below button.
 @endcomponent
 
 @component('mail::button', ['url' => 'http://127.0.0.1:8000/store/admin/login','color'=>'primary'])
