@@ -68,7 +68,16 @@ class AdminController extends Controller
             $isSaved = $admin->save();
             if ($isSaved){
                 $admin->assignRole(Role::findOrFail($request->input('role_id')));
-                Mail::to($admin)->send(new AdminWelcomeEmail($admin,$reandomString));
+                // Mail::to($admin)->send(new AdminWelcomeEmail($admin,$reandomString));
+                // ولكن الافضل ان اقوم بوضعها في المودل
+                // Mail::to($admin)->queue(new AdminWelcomeEmail($admin,$reandomString));
+                //ممكن ايضا ان نعمل تاخير مثلا بعد خمس ثوان
+                // Mail::to($admin)->later(5,new AdminWelcomeEmail($admin,$reandomString));
+                //ممكن ان اضيفها بكيو لحال
+                $message = (new AdminWelcomeEmail($admin,$reandomString))->onQueue('Emails');
+                Mail::to($admin)->queue($message);
+                // Mail::to($admin)->later(5,$message);
+
             }
             return response()->json([
                 'message' => $isSaved ?  'Saved Successfuly' : 'Failed to Save'

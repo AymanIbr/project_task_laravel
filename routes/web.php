@@ -14,6 +14,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\RolePermissionController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserPermissionController;
+use App\Jobs\TestJob;
 use App\Mail\AdminWelcomeEmail;
 use App\Mail\WelcomeEmail;
 use App\Models\User;
@@ -80,3 +81,24 @@ Route::prefix('store')->middleware('auth:admin')->group(function () {
 // Route::get('/password',function(){
 //     return bcrypt('password');
 // });
+/////////// Test Job
+
+Route::get('test-job',function(){
+    // (new TestJob())->handle();
+    //تنفيذ بطريقة تانية
+    //في هذه الحالة يتم اضافتها في جدول ال job
+        // (new TestJob())->dispatch()->delay(5);
+        // انشاء 10 جووب
+        // foreach(range(1,10) as $i){
+        //     TestJob::dispatch();
+        // }
+
+        foreach(range(1,10) as $i){
+            if($i % 2 ){
+                TestJob::dispatch()->onQueue('Even');
+            }else{
+                TestJob::dispatch()->onQueue('Odd');
+            }
+        }
+
+});
