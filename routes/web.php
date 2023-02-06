@@ -7,6 +7,7 @@ use App\Http\Controllers\authController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\NoteController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
@@ -52,6 +53,7 @@ Route::prefix('store/admin')->middleware(['auth:admin,user', 'verified'])->group
     Route::resource('cities', CityController::class);
     Route::resource('categories', CategoryController::class);
     Route::resource('users', UserController::class);
+    Route::resource('notes',NoteController::class);
 
 
     Route::get('notifications', [NotificationController::class, 'index'])->name('user.notification');

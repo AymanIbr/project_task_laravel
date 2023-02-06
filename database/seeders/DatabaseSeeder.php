@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Permission;
 
 class DatabaseSeeder extends Seeder
 {
@@ -20,5 +21,11 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+
+
+        Permission::create(['name' => 'Create-Note', 'guard_name' => 'user']);
+        Permission::create(['name' => 'Read-Notes', 'guard_name' => 'user']);
+        Permission::create(['name' => 'Update-Note', 'guard_name' => 'user']);
+        Permission::create(['name' => 'Delete-Note', 'guard_name' => 'user']);
     }
 }

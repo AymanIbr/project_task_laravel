@@ -105,3 +105,10 @@ php artisan storage:link
 -----------------------------------------
 make mail
 -> php artisan make:mail WelcomeEmail --markdown=emails.welcome
+
+
+-----------------------------------
+notification
+ 1- php artisan notification:table
+ 2- php artisan migrate
+ 3- php artisan make:notification NewUserNotification

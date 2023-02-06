@@ -21,9 +21,9 @@ class PermissionSeeder extends Seeder
         // Permission::create(['name'=>'Update-','guard_name'=>'admin']);
         // Permission::create(['name'=>'Delete-','guard_name'=>'admin']);
 
-        // Permission::create(['name' => 'Create-Admin', 'guard_name' => 'admin']);
-        // Permission::create(['name' => 'Read-Admins', 'guard_name' => 'admin']);
-        // Permission::create(['name' => 'Update-Admin', 'guard_name' => 'admin']);
-        // Permission::create(['name' => 'Delete-Admin', 'guard_name' => 'admin']);
+        // Permission::create(['name' => 'Create-Note', 'guard_name' => 'user']);
+        // Permission::create(['name' => 'Read-Notes', 'guard_name' => 'user']);
+        // Permission::create(['name' => 'Update-Note', 'guard_name' => 'user']);
+        // Permission::create(['name' => 'Delete-Note', 'guard_name' => 'user']);
     }
 }

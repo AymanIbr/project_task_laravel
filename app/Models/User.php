@@ -83,7 +83,12 @@ class User extends Authenticatable
         return $this->belongsTo(City::class, 'city_id', 'id');
     }
 
-    public function getGenderTypeAttribute(){
-        return $this->gender == 'M' ? 'Male':'Female';
+    public function getGenderTypeAttribute()
+    {
+        return $this->gender == 'M' ? 'Male' : 'Female';
+    }
+    public function notes()
+    {
+        return $this->hasMany(Note::class, 'user_id', 'id');
     }
 }
