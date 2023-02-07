@@ -12,6 +12,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\RolePermissionController;
+use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserPermissionController;
 use App\Jobs\TestJob;
@@ -55,6 +56,7 @@ Route::prefix('store/admin')->middleware(['auth:admin,user', 'verified'])->group
     Route::resource('categories', CategoryController::class);
     Route::resource('users', UserController::class);
     Route::resource('notes',NoteController::class);
+    Route::resource('sub-categories',SubCategoryController::class);
 
 
     Route::get('notifications', [NotificationController::class, 'index'])->name('user.notification');

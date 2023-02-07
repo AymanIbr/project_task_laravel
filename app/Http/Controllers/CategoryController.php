@@ -12,29 +12,21 @@ class CategoryController extends Controller
 {
     public function __construct()
     {
-        $this->authorizeResource(Category::class , 'category');
+        $this->authorizeResource(Category::class, 'category');
     }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        // if(auth('admin')->check() || auth('user')->check()){
-        //     $categories = Category::all();
-        //     return response()->view('store.categories.index',compact('categories'));
-        // }else{
-        //     $categories = Category::where('active','=',true)->get();
-        //     return response()->json([
-        //         'status'=>true,
-        //         'message'=>'success',
-        //         'data'=>$categories
-        //     ]);
-        // }
-
-        $categories = Category::all();
-        return response()->view('store.categories.index',compact('categories'));
+        if (auth('admin')->check()) {
+            $categories = Category::withCount('subCategories')->get();
+        } else {
+            $categories = $request->user()->categories()->withCount('subCategories')->get();
+        }
+        return response()->view('store.categories.index', ['categories' => $categories]);
     }
 
     /**
@@ -55,30 +47,30 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $validatore = Validator($request->all(),[
+        $validatore = Validator($request->all(), [
             'name' => 'required|string|min:3|max:30',
-            'active'=>'required|boolean',
-            'image'=>'required|image|max:2048|mimes:png,jpg'
+            'active' => 'required|boolean',
+            'image' => 'required|image|max:2048|mimes:png,jpg',
         ]);
-        if(!$validatore->fails()){
+        if (!$validatore->fails()) {
             $category = new Category();
             $category->name = $request->get('name');
             $category->active = $request->get('active');
-
-            if($request->hasFile('image')){
+            if ($request->hasFile('image')) {
                 $ex = $request->file('image')->getClientOriginalExtension();
-                $image_name = time().'_category.'.$ex;
-                $request->file('image')->storePubliclyAs('images',$image_name,['disk'=>'public']);
-                $category->image = 'images/'.$image_name;
+                $image_name = time() . '_category.' . $ex;
+                $request->file('image')->storePubliclyAs('images', $image_name, ['disk' => 'public']);
+                $category->image = 'images/' . $image_name;
             }
-            $isSaved = $category->save();
+            $isSaved = $request->user()->categories()->save($category);
+            // $isSaved = $category->save();
             return response()->json([
-                'message'=>$isSaved ? 'Saved Successfuly':'Failed to Save'
-            ],$isSaved ? Response::HTTP_CREATED : Response::HTTP_BAD_REQUEST);
-        }else{
+                'message' => $isSaved ? 'Saved Successfuly' : 'Failed to Save'
+            ], $isSaved ? Response::HTTP_CREATED : Response::HTTP_BAD_REQUEST);
+        } else {
             return response()->json([
-                'message'=>$validatore->getMessageBag()->first()
-            ],Response::HTTP_BAD_REQUEST);
+                'message' => $validatore->getMessageBag()->first()
+            ], Response::HTTP_BAD_REQUEST);
         }
     }
 
@@ -101,7 +93,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        return response()->view('store.categories.edit',compact('category'));
+        return response()->view('store.categories.edit', compact('category'));
     }
 
     /**
@@ -113,30 +105,28 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        $validatore = Validator($request->all(),[
-            'name'=>'required|string|min:3|max:30',
-            'active'=>'required|boolean',
-            'image'=>'nullable|image|max:2048|mimes:jpg,png',
+        $validatore = Validator($request->all(), [
+            'name' => 'required|string|min:3|max:30',
+            'active' => 'required|boolean',
+            'image' => 'nullable|image|max:2048|mimes:jpg,png',
         ]);
-        if(!$validatore->fails()){
+        if (!$validatore->fails()) {
             $category->name = $request->get('name');
             $category->active = $request->get('active');
-
-            if($request->hasFile('image')){
+            if ($request->hasFile('image')) {
                 Storage::delete($category->image);
                 $ex = $request->file('image')->getClientOriginalExtension();
-                    $image_name = time().'_category.'.$ex;
-                    $request->file('image')->storePubliclyAs('images',$image_name,['disk'=>'public']);
-                    $category->image = 'images/'. $image_name;
+                $image_name = time() . '_category.' . $ex;
+                $request->file('image')->storePubliclyAs('images', $image_name, ['disk' => 'public']);
+                $category->image = 'images/' . $image_name;
             }
-            $isUpdate = $category->save();
+            $isUpdate = $request->user()->categories()->save($category);
             return response()->json([
-                'message'=>$isUpdate ? 'Updated Successfuly':'Failed to Update'
-            ],$isUpdate ? Response::HTTP_CREATED : Response::HTTP_BAD_REQUEST);
-
-        }else{
+                'message' => $isUpdate ? 'Updated Successfuly' : 'Failed to Update'
+            ], $isUpdate ? Response::HTTP_CREATED : Response::HTTP_BAD_REQUEST);
+        } else {
             return response()->json([
-                'message'=>$validatore->getMessageBag()->first()
+                'message' => $validatore->getMessageBag()->first()
             ]);
         }
     }
@@ -150,10 +140,10 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         $isDeleted = $category->delete();
-        if($isDeleted){
-            return response()->json(['title'=>'Success','text'=>'Category Deleted Successfully','icon'=>'success'],Response::HTTP_OK);
-        }else{
-            return response()->json(['title'=>'Failed','text'=>'Category Deleted Failed','icon'=>'error'],Response::HTTP_BAD_REQUEST);
+        if ($isDeleted) {
+            return response()->json(['title' => 'Success', 'text' => 'Category Deleted Successfully', 'icon' => 'success'], Response::HTTP_OK);
+        } else {
+            return response()->json(['title' => 'Failed', 'text' => 'Category Deleted Failed', 'icon' => 'error'], Response::HTTP_BAD_REQUEST);
         }
     }
 }

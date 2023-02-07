@@ -20,6 +20,7 @@
                         <th>ID</th>
                         <th>Name</th>
                         <th>Image</th>
+                        <th>SubCategories</th>
                         <th>Active</th>
                         <th>Created At</th>
                         <th>Updated At</th>
@@ -36,6 +37,7 @@
                                <td>
                                    <img class="profile-user-img img-fluid img-circle" height="50" width="50" src="{{Storage::url($category->image)}}" alt="User profile picture">
                                </td>
+                               <td>{{ $category->sub_categories_count }}</td>
                                <td><span class="badge @if($category->active)bg-success @else bg-danger @endif">{{$category->status}}</span></td>
                                <td>{{$category->created_at->format('d- m - Y')}}</td>
                                <td>{{$category->updated_at->format('d- m - Y')}}</td>

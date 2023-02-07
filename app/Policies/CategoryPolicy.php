@@ -59,7 +59,11 @@ class CategoryPolicy
      */
     public function update($user, Category $category)
     {
-        return $user->hasPermissionTo('Update-Category')
+        //انو فقط اليورز الي معو صلاحيات
+        return auth('user')->check()
+         && $user->hasPermissionTo('Update-Category')
+         // الملكية لليوزر
+          && $user->id == $category->user_id
         ? $this->allow()
         : $this->deny('Don\'t have Permission',403);
     }
@@ -74,6 +78,8 @@ class CategoryPolicy
     public function delete($user, Category $category)
     {
         return $user->hasPermissionTo('Delete-Category')
+        // الي بملك صلاحية الحذف هو الادمن او اليوزر اذا كان معو ملكية
+        && (auth('admin')->check() || $user->id == $category->user_id)
         ? $this->allow()
         : $this->deny('Don\'t have Permission',403);
     }

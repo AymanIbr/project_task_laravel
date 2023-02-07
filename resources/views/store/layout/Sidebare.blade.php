@@ -187,7 +187,7 @@
                   </li>
                   @endcanany
                   @endcanany
-                  @canany(['Create-City', 'Read-Cities', 'Create-Category','Read-Categories','Create-Note','Read-Notes'])
+                  @canany(['Create-City', 'Read-Cities', 'Create-Category','Read-Categories','Create-Note','Read-Notes','Create-SubCategory','Read-SubCategories'])
                   <li class="nav-header">{{ __('store.content_management') }}</li>
                   @canany(['Create-City', 'Read-Cities'])
                   <li class="nav-item">
@@ -243,6 +243,36 @@
                             <a href="{{ route('notes.index') }}" class="nav-link">
                                 <i class="fas fa-list nav-icon"></i>
                                 <p>index</p>
+                            </a>
+                        </li>
+                        @endcan
+                    </ul>
+                </li>
+                @endcanany
+                @canany(['Create-SubCategory', 'Read-SubCategories'])
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-map-marker-alt nav-icon"></i>
+                        <p>
+                           Sub Categories
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                      @can('Create-SubCategory')
+                        <li class="nav-item">
+                            <a href="{{ route('sub-categories.create') }}" class="nav-link">
+                                {{-- <i class="fas fa-plus-suquer"></i> --}}
+                                <i class="far fa-plus-square nav-icon"></i>
+                                <p>Create</p>
+                            </a>
+                        </li>
+                        @endcan
+                        @can('Read-SubCategories')
+                        <li class="nav-item">
+                            <a href="{{ route('sub-categories.index') }}" class="nav-link">
+                                <i class="fas fa-list nav-icon"></i>
+                                <p>Index</p>
                             </a>
                         </li>
                         @endcan

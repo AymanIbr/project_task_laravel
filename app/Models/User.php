@@ -91,4 +91,17 @@ class User extends Authenticatable
     {
         return $this->hasMany(Note::class, 'user_id', 'id');
     }
+
+    public function categories()
+    {
+        return $this->hasMany(Category::class, 'user_id', 'id');
+    }
+    public function subCategoriesThrough()
+    {
+        return $this->hasManyThrough(SubCategory::class, Category::class, 'user_id', 'category_id');
+    }
+    public function subCategories()
+    {
+        return $this->hasMany(SubCategory::class, 'user_id', 'id');
+    }
 }
