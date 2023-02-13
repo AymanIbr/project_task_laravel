@@ -20,10 +20,16 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('auth')->group(function(){
 
     Route::post('login',[ApiAuthController::class, 'login']);
+
+    Route::post('forget-password',[ApiAuthController::class , 'foregetPassword'])->middleware('throttle:3,1');
+    Route::post('reset-password',[ApiAuthController::class , 'resetPassword']);
+
 });
 
 Route::prefix('auth')->middleware('auth:api')->group(function(){
     Route::get('logout',[ApiAuthController::class ,'logout' ]);
+
+    Route::post('change-password',[ApiAuthController::class , 'changePassword']);
 });
 
 Route::middleware('auth:api')->group(function(){

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Dotenv\Validator;
 use GrahamCampbell\ResultType\Success;
@@ -24,11 +25,12 @@ class CategoryApiController extends Controller
         $this->authorize('viewAny',Category::class);
 
         $data = Category::where('active','=',true)->get();
-        return response()->json([
-            'status'=>true,
-            'message'=>'success',
-            'data'=>$data
-        ]);
+           return CategoryResource::collection($data);
+        // return response()->json([
+        //     'status'=>true,
+        //     'message'=>'success',
+        //     'data'=>$data
+        // ]);
     }
 
     /**

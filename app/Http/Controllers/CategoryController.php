@@ -82,7 +82,8 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        //
+        $subCategories = $category->subCategories;
+        return response()->json(['subCategories'=>$subCategories]);
     }
 
     /**

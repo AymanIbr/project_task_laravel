@@ -36,6 +36,7 @@
                                         <th style="width:10px">#</th>
                                         <th>Title</th>
                                         <th>Info</th>
+                                        <th>SubCategory</th>
                                         <th>Done</th>
                                         <th>Created At</th>
                                         <th>Updated At</th>
@@ -49,8 +50,13 @@
                                             <td>{{ $note->title }}</td>
                                             <td>{{ $note->info }}</td>
                                             <td>
-                                                <span class="badge @if ($note->done) bg-success @else bg-warning @endif">{{ $note->done_status }}</span>
-                                            </td>                                            <td>{{ $note->created_at->format('d - m - Y') }}</td>
+                                                <span class="badge bg-info ">{{ $note->subCategory->name }}</span>
+                                            </td>
+                                            <td>
+                                                <span
+                                                    class="badge @if ($note->done) bg-success @else bg-warning @endif">{{ $note->done_status }}</span>
+                                            </td>
+                                            <td>{{ $note->created_at->format('d - m - Y') }}</td>
                                             <td>{{ $note->updated_at->format('d - m - Y') }}</td>
                                             <td>
                                                 <div class="btn-group">

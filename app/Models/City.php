@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -28,10 +29,24 @@ class City extends Model
     protected $appends = ['status'];
     //Append attribute
     // public function get_____Attribute(){}
-    public function getStatusAttribute()
+
+
+    // public function getStatusAttribute()
+    // {
+    //     return $this->active ? 'Active' : 'Disabled';
+    // }
+
+    // Laravel 9
+    //نفس الي فوق ولكن ل9
+    public function status(): Attribute
     {
-        return $this->active ? 'Active' : 'Disabled';
+        return new Attribute(
+            get: fn () => $this->active == 1 ? 'Active' : 'InActive',
+            // set:fn
+        );
     }
+
+
 
     public function users()
     {

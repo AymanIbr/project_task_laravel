@@ -13,12 +13,15 @@ class SubCategoryPolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param  \App\Models\Admin  $admin
+     * @param  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function viewAny(Admin $admin)
+    public function viewAny($user)
     {
         //
+        return $user->hasPermissionTo('Read-SubCategories')
+        ? $this->allow()
+        : $this->deny();
     }
 
     /**
@@ -39,9 +42,12 @@ class SubCategoryPolicy
      * @param  \App\Models\Admin  $admin
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function create(Admin $admin)
+    public function create($user)
     {
         //
+        return $user->hasPermissionTo('Create-SubCategory')
+        ? $this->allow()
+        : $this->deny();
     }
 
     /**
@@ -51,9 +57,12 @@ class SubCategoryPolicy
      * @param  \App\Models\SubCategory  $subCategory
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(Admin $admin, SubCategory $subCategory)
+    public function update($user, SubCategory $subCategory)
     {
         //
+        return $user->hasPermissionTo('Update-SubCategory')
+        ? $this->allow()
+        : $this->deny();
     }
 
     /**
@@ -63,9 +72,12 @@ class SubCategoryPolicy
      * @param  \App\Models\SubCategory  $subCategory
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(Admin $admin, SubCategory $subCategory)
+    public function delete($user, SubCategory $subCategory)
     {
         //
+        return $user->hasPermissionTo('Delete-SubCategory')
+        ? $this->allow()
+        : $this->deny();
     }
 
     /**

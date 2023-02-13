@@ -19,4 +19,7 @@ class Note extends Model
     {
         return $this->done ? 'Done' : 'Waiting';
     }
+    public function subCategory(){
+        return $this->belongsTo(SubCategory::class , 'sub_category_id','id');
+    }
 }

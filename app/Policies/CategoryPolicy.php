@@ -32,7 +32,7 @@ class CategoryPolicy
      */
     public function view($user, Category $category)
     {
-        return $user->hasPermissionTo('Read-Categories')
+        return $user->hasPermissionTo('Read-Categories') && $user->id == $category->user_id
         ? $this->allow()
         : $this->deny('Don\'t have Permission',403);
     }

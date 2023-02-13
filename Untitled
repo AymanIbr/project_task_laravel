@@ -135,3 +135,9 @@ php artisan queue:work --queue='Even,Odd'
 
 *---- لو كان هناك كيو محدد اقوم بتشغيله
 php artisan queue:work --queue='Emails'
+
+
+-----------------------------------------------------
+* JsonResorse -> عبارة عن اسلوب يستخدم لاعادة بناء البيانات المرجعة داخل الريسبونس عند تنفيذ طلب هذه البيانات
+
+-> php artisan make:resource CategoryResource

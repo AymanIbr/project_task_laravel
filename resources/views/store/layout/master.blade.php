@@ -3,7 +3,7 @@
 This is a starter template page. Use this page to start your new project from
 scratch. This page gets rid of all links and provides the needed markup only.
 -->
-<html lang="en">
+<html lang="{{ App::isLocale('en') ? 'en' : 'ar' }}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -119,6 +119,28 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
         </div>
       </li>
+
+      <li class="nav-item dropdown">
+
+        <a class="nav-link" data-toggle="dropdown" href="#">
+            <i class="far fa-bell"></i>
+            <span class="badge badge-warning navbar-badge"></span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+            <span class="dropdown-header"></span>
+            <div class="dropdown-divider"></div>
+            <div class="dropdown-divider"></div>
+            @foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+             <a  class="dropdown-item"  rel="alternate" hreflang="{{ $localeCode }}"
+                href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}">
+                {{ $properties['native'] }}
+            </a>
+            <div class="dropdown-divider"></div>
+            @endforeach
+
+        </div>
+    </li>
+
       <!-- Notifications Dropdown Menu -->
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
@@ -146,6 +168,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <a href="#" class="dropdown-item dropdown-footer">
         </div>
       </li>
+
+
+
+
+
+
       <li class="nav-item">
         <a class="nav-link" data-widget="fullscreen" href="#" role="button">
           <i class="fas fa-expand-arrows-alt"></i>

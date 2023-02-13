@@ -1,7 +1,7 @@
 @extends('store.layout.master')
-@section('Broser', 'Notes')
-@section('Title', 'Notes')
-@section('subtitle', 'Notes')
+@section('Broser', 'SubCategory')
+@section('Title', 'SubCategory')
+@section('subtitle', 'SubCategory')
 
 @section('content')
     <!-- Main content -->
@@ -13,7 +13,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Notes</h3>
+                            <h3 class="card-title">SubCategory</h3>
 
                             <div class="card-tools">
                                 <div class="input-group input-group-sm" style="width: 150px;">
@@ -34,32 +34,33 @@
                                 <thead>
                                     <tr>
                                         <th style="width:10px">#</th>
-                                        <th>Title</th>
-                                        <th>Info</th>
-                                        <th>Done</th>
+                                        <th>name</th>
+                                        <th>note</th>
+                                        <th>Active</th>
                                         <th>Created At</th>
                                         <th>Updated At</th>
                                         <th>Settings</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($notes as $note)
+                                    @foreach ($subCategories as $subCategory)
                                         <tr>
-                                            <td>{{ $note->id }}</td>
-                                            <td>{{ $note->title }}</td>
-                                            <td>{{ $note->info }}</td>
-                                            <td>
-                                                <span class="badge @if ($note->done) bg-success @else bg-warning @endif">{{ $note->done_status }}</span>
-                                            </td>                                            <td>{{ $note->created_at->format('d - m - Y') }}</td>
-                                            <td>{{ $note->updated_at->format('d - m - Y') }}</td>
+                                            <td>{{ $subCategory->id }}</td>
+                                            <td>{{ $subCategory->name }}</td>
+                                            <td>{{ $subCategory->notes_count }}</td>
+                                            <td><span
+                                                    class="badge @if ($subCategory->active) bg-success @else bg-danger @endif">{{ $subCategory->status }}</span>
+                                            </td>
+                                            <td>{{ $subCategory->created_at->format('d - m - Y') }}</td>
+                                            <td>{{ $subCategory->updated_at->format('d - m - Y') }}</td>
                                             <td>
                                                 <div class="btn-group">
-                                                    @can('Update-Note')
-                                                        <a href="{{ route('notes.edit', $note->id) }}"
+                                                    @can('Update-subCategory')
+                                                        <a href="{{ route('sub-categories.edit', $subCategory->id) }}"
                                                             class="btn btn-warning btn-sm"><i class=" fas fa-edit"></i></a>
                                                     @endcan
-                                                    @can('Delete-Note')
-                                                        <a href="#" onclick="confirmDestroy({{ $note->id }},this)"
+                                                    @can('Delete-subCategory')
+                                                        <a href="#" onclick="confirmDestroy({{ $subCategory->id }},this)"
                                                             class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                                     @endcan
                                                 </div>
@@ -102,7 +103,7 @@
         }
 
         function destroy(id, reference) {
-            axios.delete('/store/admin/notes/' + id)
+            axios.delete('/store/admin/sub-categories/' + id)
                 .then(function(response) {
                     // handle success
                     //فئة ال200

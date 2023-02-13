@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Note;
 use Dotenv\Validator;
 use Illuminate\Http\Request;
@@ -23,12 +24,12 @@ class NoteController extends Controller
     public function index(Request $request)
     {
         if (auth('admin')->check()) {
-            $notes = Note::all();
+            $notes = Note::with('subCategory')->get();
             return response()->view('store.notes.index', ['notes' => $notes]);
         } else {
             //طريقة اولى
             // $notes = $request->user('user')->notes;
-            $notes = $request->user()->notes;
+            $notes = $request->user()->notes()->with('subCategory')->get();
             // طريقة ثانية
             // $notes = auth('user')->user()->notes;
             //طريقة ثالثة
@@ -44,7 +45,8 @@ class NoteController extends Controller
      */
     public function create()
     {
-        return response()->view('store.notes.create');
+        $categories = Category::all();
+        return response()->view('store.notes.create',compact('categories'));
     }
 
     /**
@@ -57,12 +59,14 @@ class NoteController extends Controller
     {
         $validatore = Validator($request->all(), [
             'title' => 'required|string|min:3',
+            'sub_category_id' => 'required|numeric|exists:sub_categories,id',
             'info' => 'required|string|min:3',
             'done' => 'required|boolean'
         ]);
         if (!$validatore->fails()) {
             $note = new Note();
             $note->title = $request->input('title');
+            $note->sub_category_id = $request->input('sub_category_id');
             $note->info = $request->input('info');
             $note->done = $request->input('done');
             // $note->user_id = $request->user()->id;

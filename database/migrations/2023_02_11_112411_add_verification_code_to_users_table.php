@@ -13,8 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('notes', function (Blueprint $table) {
-            // $table->foreignId('sub_category_id')->after('user_id')->constrained()->cascadeOnDelete();
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('verification_code')->nullable()->after('password');
         });
     }
 
@@ -25,10 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('notes', function (Blueprint $table) {
-            //
-            // $table->dropForeign('notes_sub_category_id_foreign');
-            // $table->dropColumn('sub_category_id');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('verification_code');
         });
     }
 };
